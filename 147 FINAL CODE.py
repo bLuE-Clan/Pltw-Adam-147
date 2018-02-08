@@ -99,7 +99,7 @@ def tint_all_images(r,g,b, directory=None):
     directory = os.getcwd()#gets the directory specified or the current working directory
     new_directory = os.path.join(directory, "Tinted Images")# sets new_directory to "Tinted Images" 
     try:# try command
-        os.mkdir(new_directory) # make a new directory named "Framed Images"
+        os.mkdir(new_directory) # make a new directory named "Tinted Images"
     except: # except command
         pass #pass or move on
     images, files = get_images(directory) # gets image from directory
@@ -121,27 +121,27 @@ def blur_image(image, radius):
         * NOT standalone.                   *
         *************************************
         '''
-    blur = image.filter(ImageFilter.GaussianBlur(radius))
-    image.paste(blur,(0,0))
-    print 'Blurring Image...'
+    blur = image.filter(ImageFilter.GaussianBlur(radius))#adds a blue feature with a specified radius
+    image.paste(blur,(0,0))# Where it is going to alter the image from the radius givin
+    print 'Blurring Image...' 
     print 'Image',image,'has been blurred.'
-    return image
+    return image #return a blured image 
     
 def blur_all_images(radius, directory=None):
     ''' Blurs all images in working directory, 
         stores them in a folder called "Blurred Images" '''
-    directory = os.getcwd()
-    new_directory = os.path.join(directory, "Blurred Images")
-    try:
-        os.mkdir(new_directory)
-    except:
-        pass
-    images, files = get_images(directory)
-    for n in range(len(images)):
-        fname,ftype = files[n].split('.')
-        new_image = blur_image(images[n], radius)
-        new_name = os.path.join(new_directory,fname + ".png")
-        new_image.save(new_name)
+    directory = os.getcwd()#gets the directory specified or the current working directory
+    new_directory = os.path.join(directory, "Blurred Images")# sets new_directory to "Tinted Images" 
+    try: #try command
+        os.mkdir(new_directory) # make a new directory named "Blured Images"
+    except: #except command
+        pass # Pass or skip/move on
+    images, files = get_images(directory) # gets image from directory
+    for n in range(len(images)):# for the number of images
+        fname,ftype = files[n].split('.') # splits the file in the directory into a name and type
+        new_image = blur_image(images[n], radius) # specification for the new image
+        new_name = os.path.join(new_directory,fname + ".png")# adds the file type to the name of the new image
+        new_image.save(new_name)  # saves it as a new image
     print 'Success! All images have been blurred!'
     
 def text_on_image(image, text, size, line, r,g,b):
@@ -168,51 +168,51 @@ def text_on_image(image, text, size, line, r,g,b):
         * IN WORKING DIRECTORY!                *
         ****************************************
         '''
-    font = ImageFont.truetype("Arial.ttf",size)
-    width, height = image.size
-    img = Image.new('RGBA', (width,height), (0,0,0,0))
-    write = PIL.ImageDraw.Draw(img)
-    lines = textwrap.fill(text, width=line_width)
-    w,h = font.getsize(lines)
-    print w,width,h,height
-    write.text((((width-w)/2),((height-h)/2)),lines,(r,g,b),font=font)
-    image.paste(img,(0,0),img)
-    print 'Image',image,'now has text on it!'
-    return image
+    font = ImageFont.truetype("Arial.ttf",size) #Sets the font by name then takes the size from user 
+    width, height = image.size # sets width and height to the size of the image
+    img = Image.new('RGBA', (width,height), (0,0,0,0))# makes new image with specified values
+    write = PIL.ImageDraw.Draw(img) #Takes the specified image
+    lines = textwrap.fill(text, width=line_width)#make the text solid
+    w,h = font.getsize(lines) # gets thefont and sets it to a specified size
+    print w,width,h,height #print variables
+    write.text((((width-w)/2),((height-h)/2)),lines,(r,g,b),font=font) #Changes the font size 
+    image.paste(img,(0,0),img) #places text ontop of the image
+    print 'Image',image,'now has text on it!'#print statement
+    return image #returns the new image
     
 def text_on_all_images(text, size, line_width, r,g,b, directory=None):
-    directory = os.getcwd()
-    new_directory = os.path.join(directory, "Images With Text")
-    try:
-        os.mkdir(new_directory)
-    except:
-        pass
-    images, files = get_images(directory)
-    for n in range(len(images)):
-        fname,ftype = files[n].split('.')
-        new_image = text_on_image(images[n], text, size, line_width, r,g,b)
-        new_name = os.path.join(new_directory,fname + ".png")
-        new_image.save(new_name)
-    print 'Success! All images have text on them!'
+    directory = os.getcwd()#gets the directory specified or the current working directory
+    new_directory = os.path.join(directory, "Images With Text")# sets new_directory to "Tinted Images"
+    try:#try command
+        os.mkdir(new_directory)# make a new directory named "Blured Images"
+    except:#execpt command
+        pass #pass or skip/move on
+    images, files = get_images(directory)# gets image from directory
+    for n in range(len(images)):# for the number of images
+        fname,ftype = files[n].split('.')# splits the file in the directory into a name and type
+        new_image = text_on_image(images[n], text, size, line_width, r,g,b) # specification for the new image
+        new_name = os.path.join(new_directory,fname + ".png")# adds the file type to the name of the new image
+        new_image.save(new_name) # saves it as a new image
+    print 'Success! All images have text on them!' #print statement
     
 def contour_image(image):
-    contour = image.filter(ImageFilter.CONTOUR)
-    image.paste(contour,(0,0))
-    print 'Applying Contour To Image...'
-    print 'Countur applied to image',image,'!'
-    return image
+    contour = image.filter(ImageFilter.CONTOUR) #Adds the conour filter to the images
+    image.paste(contour,(0,0)) # chooses the image for it to be pasted on 
+    print 'Applying Contour To Image...' #print statement
+    print 'Countur applied to image',image,'!' #print statement
+    return image #return the new image
     
 def contour_all_images(directory=None):
     directory = os.getcwd()
     new_directory = os.path.join(directory, "Contoured Images")
-    try:
-        os.mkdir(new_directory)
-    except:
-        pass
-    images, files = get_images(directory)
-    for n in range(len(images)):
-        fname,ftype = files[n].split('.')
-        new_image = contour_image(images[n])
-        new_name = os.path.join(new_directory,fname + ".png")
-        new_image.save(new_name)
-    print 'Success! All images have been contoured!'
+    try:  #try command
+        os.mkdir(new_directory)# make a new directory named "Blured Images"
+    except: #except command
+        pass #pass or skip/move on
+    images, files = get_images(directory)# gets image from directory
+    for n in range(len(images)):# for the number of images
+        fname,ftype = files[n].split('.')# splits the file in the directory into a name and type
+        new_image = contour_image(images[n])# specification for the new image
+        new_name = os.path.join(new_directory,fname + ".png")# adds the file type to the name of the new imag
+        new_image.save(new_name)# saves it as a new image
+    print 'Success! All images have been contoured!'#print statement
